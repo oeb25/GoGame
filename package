@@ -1,0 +1,16 @@
+#/bin/bash
+
+rm -rf build/
+
+GOPATH=$GOPATH:$(pwd)
+
+NAME=ChiliPower
+
+CONTENTS=build/$NAME.app/Contents
+
+go build -o $CONTENTS/MacOS/$NAME src/app/*.go
+
+cp -r misc/* $CONTENTS
+cp -r res $CONTENTS/Resources
+mkdir $CONTENTS/Frameworks
+cp -r /Library/Frameworks/SDL2{,_image}.framework $CONTENTS/Frameworks
