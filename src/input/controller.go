@@ -5,15 +5,6 @@ import (
   "math"
 )
 
-type State int
-
-const (
-  NONE    = 0
-  HELD    = 1 << 0
-  PRESS   = 1 << 1
-  RELEASE = 1 << 2
-)
-
 type Axis struct {
   X float64
   Y float64
