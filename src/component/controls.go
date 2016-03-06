@@ -3,7 +3,7 @@ package component
 import (
   "input"
   "github.com/veandco/go-sdl2/sdl"
-  "fmt"
+  // "fmt"
 )
 
 const MASK_CONTROL = COMPONENT_VELOCITY | COMPONENT_CONTROL
@@ -16,6 +16,18 @@ func UpdateControl(c *Collection, inp *input.Input) {
 
     c.Velocity[i] = Vector2d(inp.Controller.Left.Scale(3))
 
-    fmt.Println(inp.Keyboard.Press(sdl.K_SPACE))
+    if inp.Keyboard.Held(sdl.K_RIGHT) {
+      c.Velocity[i].X += 3
+    }
+    if inp.Keyboard.Held(sdl.K_LEFT) {
+      c.Velocity[i].X -= 3
+    }
+
+    if inp.Keyboard.Held(sdl.K_DOWN) {
+      c.Velocity[i].Y += 3
+    }
+    if inp.Keyboard.Held(sdl.K_UP) {
+      c.Velocity[i].Y -= 3
+    }
   }
 }

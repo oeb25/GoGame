@@ -8,6 +8,8 @@ NAME=GoGame
 
 CONTENTS=build/$NAME.app/Contents
 
+set -e
+
 go build -o $CONTENTS/MacOS/$NAME src/app/*.go
 
 cp -r misc/* $CONTENTS

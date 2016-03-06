@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
+#/bin/bash
 
-./package
-
-./build/GoGame.app/Contents/MacOS/GoGame
+./package && ./build/GoGame.app/Contents/MacOS/GoGame

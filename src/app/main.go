@@ -4,6 +4,7 @@ import (
   "graphics"
   "input"
   "component"
+  "github.com/veandco/go-sdl2/sdl"
   "fmt"
 )
 
@@ -33,7 +34,9 @@ func main() {
   quit := false
 
   for !quit {
-    if i.Update() || (c.BACK & input.PRESS) == input.PRESS {
+    if i.Update() ||
+      (c.BACK & input.PRESS) == input.PRESS ||
+      i.Keyboard.Press(sdl.K_ESCAPE) {
       quit = true
     }
 
