@@ -4,7 +4,7 @@ rm -rf build/
 
 GOPATH=$GOPATH:$(pwd)
 
-NAME=ChiliPower
+NAME=GoGame
 
 CONTENTS=build/$NAME.app/Contents
 

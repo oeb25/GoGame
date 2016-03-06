@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# GOPATH=$GOPATH:$(pwd)
-
-# go run src/app/*.go
-
 ./package
 
 ./build/GoGame.app/Contents/MacOS/GoGame
