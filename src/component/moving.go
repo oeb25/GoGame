@@ -1,10 +1,8 @@
 package component
 
-import (
-  "github.com/veandco/go-sdl2/sdl"
-)
+import ()
 
-const MASK_MOVING = COMPONENT_POSITION | COMPONENT_VELOCITY
+const MASK_MOVING = COMPONENT_POSITION | COMPONENT_VELOCITY | COMPONENT_BOX
 
 func UpdateMoving(c *Collection) {
   for i, mask := range c.Mask {
@@ -15,46 +13,57 @@ func UpdateMoving(c *Collection) {
     pos := &c.Position[i]
     vel := &c.Velocity[i]
     intersections := &c.Intersections[i]
+    box := c.Box[i]
+
+    box.X += pos.X
+    box.Y += pos.Y
 
     intersections.X = 0
     intersections.Y = 0
 
-    rect := sdl.Rect{0, 0, 100, 100}
 
-    pos.X += vel.X
-    rect.X = int32(pos.X)
-    rect.Y = int32(pos.Y)
+    box.X += vel.X
 
     for _, wall := range c.Walls {
-      d, hit := rect.Intersect(&wall)
+    	if wall.W == 0 || wall.H == 0 {
+    		continue
+    	}
 
-      if hit {
-        if d.X == wall.X {
-          pos.X -= float64(d.W)
-          intersections.X = 1
-        } else {
-          pos.X = float64(d.X + d.W)
-          intersections.X = -1
-        }
-      }
+    	if box.Intersects(&wall) {
+    		if vel.X > 0 {
+    			box.X = wall.X - box.W
+    			intersections.X = 1
+    		} else {
+    			intersections.X = -1
+    			box.X = wall.X + wall.W
+    		}
+    	}
     }
 
-    pos.Y += vel.Y
-    rect.X = int32(pos.X)
-    rect.Y = int32(pos.Y)
+    box.Y += vel.Y
 
     for _, wall := range c.Walls {
-      d, hit := rect.Intersect(&wall)
+    	if wall.W == 0 || wall.H == 0 {
+    		continue
+    	}
 
-      if hit {
-        if d.Y == wall.Y {
-          pos.Y -= float64(d.H)
-          intersections.Y = 1
-        } else {
-          pos.Y = float64(d.Y + d.H)
-          intersections.Y = -1
-        }
-      }
+    	if box.Intersects(&wall) {
+    		if vel.Y > 0 {
+    			box.Y = wall.Y - box.H
+    			intersections.Y = 1
+    		} else {
+    			box.Y = wall.Y + wall.H
+    			intersections.Y = -1
+    		}
+    	}
     }
+
+
+    pos.X = box.X
+    pos.Y = box.Y
+
+
+    vel.X *= 0.8
+    vel.Y += 0.3
   }
 }

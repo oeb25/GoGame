@@ -14,20 +14,15 @@ func UpdateControl(c *Collection, inp *input.Input) {
       continue
     }
 
-    c.Velocity[i] = Vector2d(inp.Controller.Left.Scale(3))
-
     if inp.Keyboard.Held(sdl.K_RIGHT) {
-      c.Velocity[i].X += 3
+      c.Velocity[i].X += 1
     }
     if inp.Keyboard.Held(sdl.K_LEFT) {
-      c.Velocity[i].X -= 3
+      c.Velocity[i].X -= 1
     }
 
-    if inp.Keyboard.Held(sdl.K_DOWN) {
-      c.Velocity[i].Y += 3
-    }
-    if inp.Keyboard.Held(sdl.K_UP) {
-      c.Velocity[i].Y -= 3
+    if inp.Keyboard.Press(sdl.K_SPACE) && c.Intersections[i].Y == 1 {
+    	c.Velocity[i].Y = -8
     }
   }
 }

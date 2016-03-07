@@ -27,8 +27,6 @@ func Init() Graphics {
 
   graphics.resPath = path.Join(dir, "../Resources")
 
-  fmt.Println(graphics.resPath)
-
   sdl.Init(sdl.INIT_EVERYTHING)
 
   graphics.C = sdl.GameControllerOpen(0)
@@ -73,6 +71,7 @@ func (g *Graphics) LoadTexture(src string) *sdl.Texture {
 }
 
 func (g *Graphics) Clear() {
+	g.Renderer.SetDrawColor(255, 255, 255, 255)
   g.Renderer.Clear()
 }
 
@@ -81,6 +80,11 @@ func (g *Graphics) DrawTexture(tex *sdl.Texture, x, y int32) {
   rect := sdl.Rect{x, y, 100, 100}
 
   g.Renderer.Copy(tex, &src, &rect)
+}
+
+func (g *Graphics) DrawRect(rect *sdl.Rect) {
+	g.Renderer.SetDrawColor(100, 100, 255, 255)
+	g.Renderer.FillRect(rect)
 }
 
 func (g *Graphics) Flip() {
